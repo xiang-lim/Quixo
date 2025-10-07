@@ -36,9 +36,8 @@ def menu():
     
     quixo_board = []
     for i in range(25):
-        
-    
-    pass
+        pass
+    test()
 
  
 if __name__ == "__main__":
