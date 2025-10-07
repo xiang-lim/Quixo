@@ -3,7 +3,6 @@ import math
 
 
 def check_move(board, turn, index, push_from):
-def check_move(board, turn, index, push_from):
     # implement your function here
     n = int(math.sqrt(len(board)))
     # [1st row, 1st col, last row, last col]
