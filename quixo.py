@@ -1,6 +1,6 @@
 import random
 import math
-from test.py import test
+
 
 def check_move(board, turn, index, push_from):
     # implement your function here
@@ -12,6 +12,7 @@ def apply_move(board, turn, index, push_from):
 
 def check_victory(board, who_played):
     # implement your function here
+    
     return -1
 
 def computer_move(board, turn, level):
@@ -32,12 +33,15 @@ def display_board(board):
 
 def menu():
     # implement your function here
-    
-    
+
+    #Load board
+    n = 5
     quixo_board = []
-    for i in range(25):
+    for i in range(n**2):
+        quixo_board.append(0)
+        
         pass
-    test()
+    
 
  
 if __name__ == "__main__":
