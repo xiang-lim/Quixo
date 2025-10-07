@@ -19,6 +19,7 @@ def computer_move(board, turn, level):
     
 def display_board(board):
     # implement your function here
+    # 
     count=0
     for x in range(len(board)):
         print(board[x], end=" ")
@@ -26,12 +27,16 @@ def display_board(board):
         
         if count%5==0:
             print()
-    
-        
     pass
 
 def menu():
     # implement your function here
+    
+    
+    quixo_board = []
+    for i in range(25):
+        
+    
     pass
 
  
