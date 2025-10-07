@@ -1,5 +1,6 @@
 import random
 import math
+from test.py import test
 
 def check_move(board, turn, index, push_from):
     # implement your function here
