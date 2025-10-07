@@ -24,14 +24,14 @@ def check_move(board, turn, index, push_from):
             # create a dictionary of avail moves for each corner cube
             corner_moves_dict = {corner_index[i]:corner_moves[i] for i in range(len(corner_index))}
             # move is  avail for that specific corner cube
-            if push_from  in corner_moves_dict[index]:
+            if push_from in corner_moves_dict[index]:
                 return True
             else: # move is not avail for that specific corner cube
                 return False
         else: # in between 2 corners
             # Pick 2nd element from corner index, check if index less than, If no, pick the next larger element. 
             # Case 1: less than 2nd element >> B,L,R
-            if index < corner_index[1] and push_from in ["B", "L", "R"]:
+            if (0 < index < corner_index[1]) and push_from in ["B", "L", "R"]:
                 return True
             
             # Case 2: less than 3rd element
@@ -39,11 +39,11 @@ def check_move(board, turn, index, push_from):
                     #       >> T, B, R
                     #   B: else last col
                     #       >> T, B, L
-            elif corner_index[1] < index < corner_index[2] and \
-                (index % n == 0 and push_from in ["T", "B", "R"]) or (index % n != 0 and push_from not in ["T", "B", "L"]):
+            elif (corner_index[1] < index < corner_index[2]) and \
+                ((index % n == 0 and push_from in ["T", "B", "R"]) or (index % n != 0 and push_from in ["T", "B", "L"])):
                     return True
             # Case 3: less than 4th aka largest element >> T,L,R
-            elif corner_index[2] < index < corner_index[3] and push_from  in ["T", "L", "R"]: 
+            elif (corner_index[2] < index < corner_index[3]) and push_from in ["T", "L", "R"]: 
                 return True
             else:
                 return False
