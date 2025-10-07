@@ -19,6 +19,15 @@ def computer_move(board, turn, level):
     
 def display_board(board):
     # implement your function here
+    count=0
+    for x in range(len(board)):
+        print(board[x], end=" ")
+        count+=1
+        
+        if count%5==0:
+            print()
+    
+        
     pass
 
 def menu():
