@@ -50,7 +50,44 @@ def check_move(board, turn, index, push_from):
 
 def apply_move(board, turn, index, push_from):
     # implement your function here
-    return board[:]
+    board_copy=board.copy()
+    length= int(math.sqrt(len(board_copy)))
+    #Finds the length of each row 
+    
+    if push_from=="L":
+        for n in range(1,length+1):
+            if index in range(length*(n-1),length*n):
+        #Finds which row the index is in
+                board_copy.pop(index)
+                board_copy.insert(length*(n-1), turn)
+                
+    elif push_from=="R":
+        for n in range(1,length+1):
+            if index in range(length*(n-1),length*n):
+                board_copy.pop(index)
+                board_copy.insert(length*n-1, turn)
+    
+    elif push_from=="B":
+        for n in range(1,length+1):
+            if index in range(length*(n-1),length*n):
+                count=0
+                board_copy[index]=turn
+                while count<length-n:
+                #Determines the number of swaps
+                    board_copy[index + length*count], board_copy[index+ length*(count+1)]=board_copy[index+ length*(count+1)], board_copy[index + length*count]
+                    #The swapping
+                    count +=1
+                    
+    elif push_from=="T":
+        for n in range(1,length+1):
+            if index in range(length*(n-1),length*n):
+                count=0
+                board_copy[index]=turn
+                while count<n-1:
+                    board_copy[index + length*count], board_copy[index+ length*(count-1)]=board_copy[index+ length*(count-1)], board_copy[index + length*count]
+                    count +=1
+                    
+    return board_copy
 
 def check_victory(board, who_played):
     # implement your function here
