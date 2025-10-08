@@ -206,6 +206,7 @@ def display_board(board):
 
         if count % board_length == 0:
             print()
+    print()
     pass
 
 
@@ -214,7 +215,7 @@ def get_user_input(input_statement):
         try:
             return int(input(input_statement))
         except:
-            print("Please enter a valid number")
+            print("Please enter a valid number\n")
 
 
 def get_user_input_validate_range(list_of_options, input_statement, error_message):
@@ -289,17 +290,16 @@ def menu():
     turn = 1
     has_winner = False
     while not has_winner:
+        print ("Player {0} turn\n".format(turn))
         if players_detail[turn][0] == "Human":
             # logic for human
             valid_index = False
             display_board(board)
-            print ("Player {0} turn".format(turn))
             while not valid_index:
-                index = get_user_input_validate_range(
-                    board,
-                    "Player {0}, Please select the piece you would like to move: ".format(turn),
-                    "Invalid Selection: Piece select out of board range",
-                )
+                index = get_user_input("Player {0}, Please select the piece you would like to move: ".format(turn))
+                if index not in range(len(board)):
+                    print("Invalid Selection: Index out of range")
+                    continue
                 valid_index = board[index - 1] != turn or board[index - 1] != 0
                 if not valid_index:
                     print("Invalid Selection: Piece selection is invalid.")
