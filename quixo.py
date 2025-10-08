@@ -54,8 +54,93 @@ def apply_move(board, turn, index, push_from):
 
 def check_victory(board, who_played):
     # implement your function here
+    dim_board = int(math.sqrt(len(board)))
     
-    return -1
+    player_1_score = []
+    player_2_score =[]
+    
+    
+    
+    #Check left diagonal
+    left_diagonal = board[0:len(board):dim_board+1]
+    
+    #Check left diagonal score
+    if left_diagonal.count(1)==dim_board:
+       player_1_score.append(1)
+    
+    elif left_diagonal.count(2)==dim_board:
+        player_2_score.append(1)
+
+    
+
+    
+    
+    #Check right diagonal
+    right_diagonal=board[dim_board-1:len(board):dim_board-1]
+    
+    #Check right diagonal score
+    if left_diagonal.count(1)==dim_board:
+       player_1_score.append(1)
+    
+    elif left_diagonal.count(2)==dim_board:
+        player_2_score.append(1)
+    
+    
+    
+
+    
+    #Check column:
+    for c in range(dim_board):
+        column = board[c::dim_board]
+        
+        if column.count(1)==dim_board:
+            player_1_score.append(1)
+            
+        elif column.count(2)==dim_board:
+            player_2_score.append(1)
+            
+            
+            
+    
+    
+    #Check row:
+    for e in range(dim_board):
+        row = board[e*dim_board:(e+1)*dim_board:1]
+    
+        if row.count(1)==dim_board:
+            player_1_score.append(1)
+            
+        elif row.count(2)==dim_board:
+            player_2_score.append(1)
+            
+
+    
+    #Final deduction
+    
+    if who_played==1:
+        
+        if 1 in player_2_score:
+            return who_played+1
+        
+        elif len(player_1_score)==0 and len(player_2_score)==0:
+            return 0
+        
+        else:
+            return who_played
+    
+    
+    elif who_played==2:
+        
+            if 1 in player_1_score:
+                
+                return who_played-1
+            
+            elif len(player_1_score)==0 and len(player_2_score)==0:
+                return 0
+        
+            else:
+                return who_played
+   
 
 def computer_move(board, turn, level):
     # implement your function here
