@@ -236,6 +236,19 @@ def generate_options_for_display(list_of_options: list):
         display_string += "\n" + "[{0}] {1}".format(i + 1, list_of_options[i])
     return display_string + "\nEnter: "
 
+def selecting_index (board,turn):
+    valid_index= False
+    while not valid_index:
+        index = get_user_input("Player {0}, Please select the piece you would like to move: ".format(turn))
+        if index not in range(len(board)):
+            print("Invalid Selection: Index out of range")
+            continue
+        # TODO: Add validations that check if selection is on the edges and selection is the right turn
+        valid_index = board[index - 1] != turn or board[index - 1] != 0
+        if not valid_index:
+            print("Invalid Selection: Piece selection is invalid.")
+    return index
+
 
 # Basically setting player details. Computer player is associated with a
 # difficulty tuple. Human players will have an empty tuple.
@@ -293,27 +306,19 @@ def menu():
         print ("Player {0} turn\n".format(turn))
         if players_detail[turn][0] == "Human":
             # logic for human
-            valid_index = False
-            display_board(board)
-            while not valid_index:
-                index = get_user_input("Player {0}, Please select the piece you would like to move: ".format(turn))
-                if index not in range(len(board)):
-                    print("Invalid Selection: Index out of range")
-                    continue
-                valid_index = board[index - 1] != turn or board[index - 1] != 0
-                if not valid_index:
-                    print("Invalid Selection: Piece selection is invalid.")
             valid_push = False
             while not valid_push:
+                display_board(board)
+                index = selecting_index(board, turn)
                 push_from = map_of_user_input_to_board_direction[
-                    get_user_input_validate_range(
-                        list_of_push_values,
-                        "Player {0}, Please select push directions{1}".format(turn,
-                            generate_options_for_display(list_of_push_values)
-                        ),
-                        "Invalid Selection: Select push direction within range",
-                    )
-                ]
+                        get_user_input_validate_range(
+                            list_of_push_values,
+                            "Player {0}, Please select push directions{1}".format(turn,
+                                generate_options_for_display(list_of_push_values)
+                            ),
+                            "Invalid Selection: Select push direction within range",
+                        )
+                    ]
                 valid_push = check_move(board, turn, index, push_from)
                 if not valid_push:
                     print("Move entered is invalid.")
