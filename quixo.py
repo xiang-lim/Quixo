@@ -99,12 +99,12 @@ def apply_move(board, turn, index, push_from):
                     # The swapping
                     count += 1
 
-    elif push_from == "T":
+    elif push_from == "T": 
         for n in range(1, length + 1):
             if index in range(length * (n - 1), length * n):
                 count = 0
                 board_copy[index] = turn
-                while count < n - 1:
+                while count < n - 1: 
                     (
                         board_copy[index + length * count],
                         board_copy[index + length * (count - 1)],
@@ -188,10 +188,58 @@ def check_victory(board, who_played):
 
         else:
             return who_played
+def get_list_of_perimeter_index (board):
+    # Get perimeter
+    board_length = cal_board_length(board)
+    list_of_perimeter_index = list(range(board_length))+list(range(len(board)-board_length,len(board)))
+    #left perimeter is c * n right side is c*n + n -1 ignore first and last row
+    for c in range(1,board_length-1):
+        list_of_perimeter_index += [c*board_length,c*board_length+board_length-1] 
+    return list_of_perimeter_index
 
+def get_valid_push_directions (board,turn):
+    list_of_board_perimeter_index = get_list_of_perimeter_index(board)
+    movable_index = [value for value in list_of_board_perimeter_index if board[value] == turn or board[value] == 0]
+    list_of_directions = ["T","B","L","R"]
+    list_of_valid_push_directions = []
+    #Create tuple of index and direction
+    for index in movable_index:
+        for direction in list_of_directions:
+            if check_move(board, turn, index, direction):
+                list_of_valid_push_directions.append((index,direction))
+    return list_of_valid_push_directions
+
+def separate_immediate_winning_move (board,turn,list_of_valid_player_push):
+    winning_move_list = []
+    viable_move_list = []
+    for valid_push in list_of_valid_player_push:
+        hypothetical_board = apply_move(board, turn, valid_push[0], valid_push[1])
+        winner = check_victory(hypothetical_board, turn)
+        if winner == turn:
+            winning_move_list.append(valid_push)
+        elif winner ==0:
+            viable_move_list.append((valid_push, hypothetical_board))
+    return winning_move_list,viable_move_list
 
 def computer_move(board, turn, level):
     # implement your function here
+    list_of_valid_push = get_valid_push_directions(board, turn)
+    if level == 1:
+        return list_of_valid_push[random.randint(0, len(list_of_valid_push)-1)]
+    elif level == 2:
+        winning_move_list, optional_move_list=separate_immediate_winning_move(board, turn, list_of_valid_push)
+        if len(winning_move_list)>0:
+            return winning_move_list[0]
+        else:
+            enemy = 2 if turn ==1 else 1
+            for move in optional_move_list:
+                reference_hypothetical_board = move[1]
+                enemy_valid_push = get_valid_push_directions(reference_hypothetical_board, enemy)
+                enemy_wining_move, enemy_optional_move = separate_immediate_winning_move(reference_hypothetical_board,enemy,enemy_valid_push)
+                if len(enemy_wining_move) == 0:
+                    return move[0]
+            return optional_move_list[random.randint(0,len(optional_move_list)-1)][0]
+            
     return (0, "B")
 
 
@@ -296,8 +344,9 @@ def menu():
     players_detail = {}
     for player_num in range(1, 3):
         initialise_player(player_num, players_detail)
-    map_of_user_input_to_board_direction = {1: "T", 2: "L", 3: "R", 4: "B"}
+    map_of_user_input_to_board_direction = {1: "T",  2: "B", 3: "L", 4: "R",}
     list_of_push_values = list(map_of_user_input_to_board_direction.values())
+    print(players_detail)
 
     print("\nGame start!\n")
     turn = 1
@@ -325,8 +374,10 @@ def menu():
             board = apply_move(board, turn, index, push_from)
 
         else:
-            move = computer_move(board, turn, players_detail[player_num][0])
-            print("computer don't know how to move yet :(")
+            move = computer_move(board, turn, players_detail[turn][1])
+            print("(Computer) Player {0} applied move {1}".format(turn, str(move)))
+            board= apply_move(board,turn,move[0],move[1])
+            display_board(board)
 
         # Check victory logic
         winner = check_victory(board, turn)
