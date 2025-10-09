@@ -240,7 +240,6 @@ def computer_move(board, turn, level):
                 if len(enemy_wining_move) == 0:
                     list_of_valid_move_against_enemy.append(move[0])
             if list_of_valid_move_against_enemy:
-                print(list_of_valid_move_against_enemy)
                 return list_of_valid_move_against_enemy[random.randint(0, len(list_of_valid_move_against_enemy)-1)]
             else:
                 return optional_move_list[random.randint(0,len(optional_move_list)-1)][0]
