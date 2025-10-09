@@ -24,6 +24,11 @@ def test():
     board = [0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0]
     if not check_move(board, 1, 7, 'T'): print("test check_move 5 - OK !")
     else: print("test check_move 5 - Problem in the check_move function output !")
+    
+    board = [0,1,1,2,0,2,1,0,1]
+    if check_victory(board, 1)==1: print("test check_victory 6 - OK !")
+    else: print("test check_victory 6 - Problem in the check_victory function output !")
+    
    
     
     # ***************** apply_move ***************** #
