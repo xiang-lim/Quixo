@@ -106,11 +106,11 @@ def apply_move(board, turn, index, push_from):
                 board_copy[index] = turn
                 while count < n - 1: 
                     (
-                        board_copy[index + length * count],
-                        board_copy[index + length * (count - 1)],
+                        board_copy[index - length * count],
+                        board_copy[index - length * (count + 1)],
                     ) = (
-                        board_copy[index + length * (count - 1)],
-                        board_copy[index + length * count],
+                        board_copy[index - length * (count + 1)],
+                        board_copy[index - length * count],
                     )
                     count += 1
 
