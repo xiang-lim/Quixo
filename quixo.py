@@ -239,9 +239,11 @@ def computer_move(board, turn, level):
                 enemy_wining_move, enemy_optional_move = separate_immediate_winning_move(reference_hypothetical_board,enemy,enemy_valid_push)
                 if len(enemy_wining_move) == 0:
                     list_of_valid_move_against_enemy.append(move[0])
-            if list_of_valid_move_against_enemy is not None:
-                return list_of_valid_move_against_enemy[random.randint( len(list_of_valid_move_against_enemy))]
-            return optional_move_list[random.randint(0,len(optional_move_list)-1)][0]
+            if list_of_valid_move_against_enemy:
+                print(list_of_valid_move_against_enemy)
+                return list_of_valid_move_against_enemy[random.randint(0, len(list_of_valid_move_against_enemy)-1)]
+            else:
+                return optional_move_list[random.randint(0,len(optional_move_list)-1)][0]
             
     return (0, "B")
 
