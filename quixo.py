@@ -371,10 +371,11 @@ def menu():
     while not valid_board_size:
         print()  # TO break line for ui
         size_of_board = get_user_input("Enter size of board: ")
-        # TODO: is it valid to have a board size one? i mean the program can work but game wise feels...
-        valid_board_size = size_of_board > 0
-        if not valid_board_size:
+        valid_board_size = size_of_board > 1
+        if not valid_board_size and size_of_board != 1:
             print("Please enter a valid board size")
+        elif not valid_board_size and size_of_board == 1:
+            print("Board size one has no valid moves, Please enter a valid size")
 
     board = [0] * size_of_board**2
     players_detail = {}
