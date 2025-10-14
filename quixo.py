@@ -173,7 +173,7 @@ def check_victory(board, who_played):
     if who_played == 1:
 
         if 1 in player_2_score:
-            return who_played + 1
+            return 2
 
         elif len(player_1_score) == 0 and len(player_2_score) == 0:
             return 0
@@ -185,7 +185,7 @@ def check_victory(board, who_played):
 
         if 1 in player_1_score:
 
-            return who_played - 1
+            return 1
 
         elif len(player_1_score) == 0 and len(player_2_score) == 0:
             return 0
