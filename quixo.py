@@ -72,7 +72,7 @@ def apply_move(board, turn, index, push_from):
     if push_from == "L":
         for n in range(1, length + 1):
             if index in range(length * (n - 1), length * n):
-                # Finds which row the index is in
+            # Finds which row the index is in
                 board_copy.pop(index)
                 # Removes the object in the chosen index
                 board_copy.insert(length * (n - 1), turn)
