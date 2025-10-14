@@ -139,7 +139,7 @@ def check_victory(board, who_played):
         player_2_score.append(1)
 
     # Check right diagonal
-    right_diagonal = board[dim_board - 1 : len(board)-1 : dim_board - 1]
+    right_diagonal = board[dim_board - 1 : dim_board**(2) -dim_board+1 : dim_board - 1]
 
     # Check right diagonal score
     if right_diagonal.count(1) == dim_board:
