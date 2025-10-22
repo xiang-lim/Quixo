@@ -341,7 +341,6 @@ def selecting_index(board, turn):
         index = get_user_input(
             "Player {0}, Please select the piece you would like to move: ".format(turn)
         )
-        print(filter_list_of_perimeter_index(board, turn))
         if index in filter_list_of_perimeter_index(board, turn):
             valid_index = True
             continue
@@ -409,7 +408,7 @@ def menu():
     turn = 1
     has_winner = False
     while not has_winner:
-        print("Player {0} turn\n".format(turn))
+        print("### Player {0} turn ###\n".format(turn))
         if players_detail[turn][0] == "Human":
             # logic for human
             valid_push = False
@@ -428,6 +427,7 @@ def menu():
                 valid_push = check_move(board, turn, index, push_from)
                 if not valid_push:
                     print("Move entered is invalid.")
+                print()
             board = apply_move(board, turn, index, push_from)
 
         else:
