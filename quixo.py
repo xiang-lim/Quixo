@@ -193,7 +193,8 @@ def check_victory(board, who_played):
         else:
             return who_played
 
-# Function to filter list of valid parameters
+# Function to filter list of valid index based on the 
+# index on perimeter and index is neutral or belongs to player
 def filter_list_of_perimeter_index(board, turn):
     # Get perimeter
     board_length = cal_board_length(board)
@@ -227,7 +228,8 @@ def get_valid_push_directions(board, turn):
     return list_of_valid_push_directions
 
 
-
+# Just a simple function to randomise selection if there is a choice
+# Prevents deadlock where computer just choose the first option in the list
 def choose_random_index_from_list(list_of_index):
     return list_of_index[random.randint(0, len(list_of_index) - 1)]
 
@@ -237,41 +239,52 @@ def choose_random_index_from_list(list_of_index):
 # Level 1 is just choosing any valid random move
 # Level 2 is to select winning move or prevent choosing a losing move from valid moves
 def computer_move(board, turn, level):
-    # implement your function here
+    #Retrieve a list of index with corresponding push directions
     list_of_valid_push = get_valid_push_directions(board, turn)
-    if level == 1:
+    if level == 1: # Choose any valid moves
         return choose_random_index_from_list(list_of_valid_push)
 
-    else: # level 2
+    else: # level 2 Choose winning move else prevent losing move
+        # Determine enemy turn    
         enemy = 2 if turn == 1 else 1
-        list_of_neutral_and_losing_move = []
+        # Set of list to sort the moves
+        list_of_non_winning_move = []
         list_of_losing_moves = []
         list_of_neutral_moves = []
-        #Separate winning move if any
+        # immediate return for winning move if any
+        # Reason for immediate return is that we do not need to consider the neutral
+        # or losing moves unless there is no winning move
         for move in list_of_valid_push:
             hypothetical_board= apply_move(board,turn,move[0],move[1])
             victory = check_victory(hypothetical_board, turn)
+            #Filter out moves that does nothing
+            if hypothetical_board == board:
+                continue
             # if found a winning move immediately return and break loop
+            # else filter if victory is immediate losing or neutral
             if victory == turn:
                 return move
+            elif victory == enemy:
+                list_of_losing_moves.append(move)
             else:
-                list_of_neutral_and_losing_move.append(move)
-        # Filter neutral moves into losing moves and winning move
-        for neutral_move in list_of_neutral_and_losing_move:
-            neutral_hypothetical_board = apply_move(board,turn,neutral_move[0],neutral_move[1])
+                list_of_non_winning_move.append(move)
+        # Filter non_winning moves into losing moves and neutral move
+        for non_winning_move in list_of_non_winning_move:
+            non_winning_hypothetical_board = apply_move(board,turn,non_winning_move[0],non_winning_move[1])
+
             is_losing_move = False
             # Get list of enemy moves with respect to the board
-            for enemy_move in get_valid_push_directions(neutral_hypothetical_board, enemy):
-                enemy_hypothetical_board = apply_move(neutral_hypothetical_board, enemy,enemy_move[0],enemy_move[1])
+            for enemy_move in get_valid_push_directions(non_winning_hypothetical_board, enemy):
+                enemy_hypothetical_board = apply_move(non_winning_hypothetical_board, enemy,enemy_move[0],enemy_move[1])
                 # The moment the move is identified as losing can break loop
                 if check_victory(enemy_hypothetical_board, enemy) == enemy:
                     is_losing_move = True
                     break
             # Append repective to the outcome
             if is_losing_move:
-                list_of_losing_moves.append(neutral_move)
+                list_of_losing_moves.append(non_winning_move)
             else:
-                list_of_neutral_moves.append(neutral_move)
+                list_of_neutral_moves.append(non_winning_move)
 
         if list_of_neutral_moves:
             return choose_random_index_from_list(list_of_neutral_moves)
@@ -289,6 +302,7 @@ def display_board(board):
 
         if count % board_length == 0:
             print()
+    print("\n---------------------------------------------\n")
     print()
     pass
 
