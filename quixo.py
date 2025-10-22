@@ -351,7 +351,8 @@ def selecting_index(board, turn):
 
 
 # Basically setting player details. Computer player is associated with a
-# difficulty tuple. Human players will have an empty tuple.
+# tuple that contains type of player and difficulty while Human players will have a tuple 
+# containing type and 0 as a placeholder
 def initialise_player(player_num, players_detail):
     list_of_player_type = ["Human", "Computer"]
     list_of_computer_difficulty = ["Easy", "Medium"]
@@ -363,7 +364,7 @@ def initialise_player(player_num, players_detail):
         "Please enter a valid player type",
     )
     if player_type == 1:
-        players_detail[player_num] = ("Human",)
+        players_detail[player_num] = ("Human",0)
     else:
         players_detail[player_num] = (
             "Computer",
